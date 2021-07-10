@@ -1,6 +1,8 @@
 module.exports = {
     name: "prune",
     description: "Deletes the last 2 - 100 messages in the channel the message was sent in based on author input.",
+    cooldown: 5,
+    permissions: "MANAGE_CHANNELS",
     execute(message, args) {
         // Changes string into integer
         const amount = parseInt(args[0]) + 1;

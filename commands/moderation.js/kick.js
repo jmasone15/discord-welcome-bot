@@ -2,6 +2,8 @@ module.exports = {
     name: "kick",
     description: "Kicks a targeted user from the guild.",
     guildOnly: true,
+    cooldown: 5,
+    permissions: "KICK_MEMBERS",
     execute(message, args) {
         const taggedUser = message.mentions.users.first();
         if (!taggedUser) {

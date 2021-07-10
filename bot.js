@@ -33,15 +33,23 @@ client.on("message", message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-    // If there is no command with the input name, the function ends.
-    if (!client.commands.has(commandName)) return;
+    // Get the commmand name from the collection and check for aliases.
+    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-    // Gets the command from the collection and sets it to a constant.
-    const command = client.commands.get(commandName);
+    // If there is no command with the input or alias name, the function ends.
+    if (!command) return;
 
     // Validation for guild only commands.
     if (command.guildOnly && message.channel.type === "dm") {
         return message.reply("I can't execute that command inside DMs!");
+    }
+
+    // Validation for command permissions.
+    if (command.permissions) {
+        const authorPerms = message.channel.permissionsFor(message.author);
+        if (!authorPerms || !authorPerms.has(command.permissions)) {
+            return message.reply("You don't have permissons for this command.");
+        }
     }
 
     // If the arguments property is true in the command, this check runs to see if the author provided arguments in their command.

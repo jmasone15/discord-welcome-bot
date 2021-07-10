@@ -1,6 +1,7 @@
 module.exports = {
     name: "role",
     description: "Give a role to a targeted user.",
+    cooldown: 5,
     args: true,
     usage: "<user> <role>",
     execute(message, args) {
