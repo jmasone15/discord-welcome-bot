@@ -9,8 +9,11 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 client.cooldowns = new Discord.Collection();
 
+// Get the command folder and the subfolders inside of it.
 const commandFolders = fs.readdirSync("./commands");
 
+// Loops through the files in the command subfolders.
+// Adds each command in the subfolder files to the commands collection.
 for (const folder of commandFolders) {
     const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith(".js"));
     for (const file of commandFiles) {
@@ -19,11 +22,19 @@ for (const folder of commandFolders) {
     }
 };
 
-// Ready Event
-// This event will only trigger one time after logging in.
-client.once("ready", () => {
-    console.log(`${client.user.username} is running.`);
-});
+// Get the events folder and the subfolders inside of it.
+const eventFiles = fs.readdirSync("./events").filter(file => file.endsWith(".js"));
+
+// Loops through the files in the events subfolders.
+// Runs each event command that was found.
+for (const file of eventFiles) {
+    const event = require(`./events/${file}`);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args, client));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args, client));
+    }
+}
 
 client.on("message", message => {
     // Validation of prefix and non bot message.
