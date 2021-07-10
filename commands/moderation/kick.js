@@ -3,11 +3,12 @@ module.exports = {
     description: "Kicks a targeted user from the guild.",
     guildOnly: true,
     cooldown: 5,
+    args: true,
+    usage: "<user>",
     permissions: "KICK_MEMBERS",
     execute(message, args) {
         // Grab the username of the targeted user.
         const taggedUser = message.mentions.users.first();
-        console.log(taggedUser);
 
         // If the targeted user exists, kick them from the server.
         if (!taggedUser) {
@@ -15,7 +16,6 @@ module.exports = {
         } else {
             // Grab the id of the targeted user within in guild.
             const taggedMember = message.guild.member(taggedUser);
-            console.log(taggedMember);
 
             if (taggedMember) {
                 taggedMember.kick().then(() => {
