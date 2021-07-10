@@ -17,6 +17,6 @@ module.exports = {
         } catch (err) {
             console.error(err);
             message.reply("You messed something up, Jordan.");
-        }
-    }
+        };
+    },
 }
