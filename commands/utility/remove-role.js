@@ -1,10 +1,11 @@
 module.exports = {
     name: "remove-role",
-    description: "Remove a role or all roles from a targeted user.",
+    description: "Remove a role from a targeted user.",
     guildOnly: true,
     cooldown: 1,
     args: true,
-    usage: "<user> <role>",
+    usage: "<@user> <@role>",
+    aliases: ["role-remove"],
     permissions: "MANAGE_ROLES",
     async execute(message, args) {
         // Grab the username of the target user.

@@ -4,6 +4,8 @@ module.exports = {
     name: "about",
     description: "Command to learn about bot creator.",
     cooldown: 5,
+    args: false,
+    usage: " ",
     async execute(message, args) {
         const aboutEmbed = new Discord.MessageEmbed()
             .setColor("#7700ff")

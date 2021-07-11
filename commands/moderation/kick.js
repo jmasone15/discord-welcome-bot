@@ -4,7 +4,7 @@ module.exports = {
     guildOnly: true,
     cooldown: 5,
     args: true,
-    usage: "<user>",
+    usage: "<@user>",
     permissions: "KICK_MEMBERS",
     async execute(message, args) {
         // Grab the username of the targeted user.

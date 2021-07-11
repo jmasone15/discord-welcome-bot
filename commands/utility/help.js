@@ -4,9 +4,10 @@ const { prefix } = require("../../config.json");
 module.exports = {
     name: "help",
     description: "List of all commands or info about a specific command.",
+    args: false,
     aliases: ["commands"],
-    usage: "[command name]",
-    cooldown: 5,
+    usage: " or !help <command name>",
+    cooldown: 3,
     async execute(message, args) {
         const data = [];
         const { commands } = message.client;
@@ -51,9 +52,9 @@ module.exports = {
                 .setColor("#7700ff")
                 .setTitle(command.name)
                 .setDescription(command.description)
-                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
                 .addField("Aliases", command.aliases.join(" "))
                 .addField("Usage", `${prefix}${command.name} ${command.usage}`)
+                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
 
             await message.channel.send(commandEmbed);
 
@@ -62,8 +63,8 @@ module.exports = {
                 .setColor("#7700ff")
                 .setTitle(command.name)
                 .setDescription(command.description)
-                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
                 .addField("Usage", `${prefix}${command.name} ${command.usage}`)
+                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
 
             await message.channel.send(commandEmbed);
         } else if (!command.usage && command.aliases) {
@@ -71,8 +72,8 @@ module.exports = {
                 .setColor("#7700ff")
                 .setTitle(command.name)
                 .setDescription(command.description)
-                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
                 .addField("Aliases", command.aliases.join(" "))
+                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
 
             await message.channel.send(commandEmbed);
         } else {

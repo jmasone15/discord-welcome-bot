@@ -5,6 +5,7 @@ module.exports = {
     cooldown: 1,
     args: true,
     usage: "<@user> <@role>",
+    aliases: ["role-add", "role-give"],
     permissions: "MANAGE_ROLES",
     async execute(message, args) {
         // Grab the username of the target user.
