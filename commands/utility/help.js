@@ -1,3 +1,4 @@
+const Discord = require("discord.js");
 const { prefix } = require("../../config.json");
 
 module.exports = {
@@ -9,16 +10,23 @@ module.exports = {
     async execute(message, args) {
         const data = [];
         const { commands } = message.client;
+        const commandObjectArray = [];
+
+        commands.map(command => commandObjectArray.push({ name: `\`${command.name}\``, value: command.description }));
 
         // If no particular command was specified, DM the author a list of all the commands.
         if (!args.length) {
-            data.push("Here's a list of all my commands:\n");
-            data.push(commands.map(command => `\`${command.name}\``).join("\n"));
-            data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
+            const allCommandsEmbed = new Discord.MessageEmbed()
+                .setColor("#7700ff")
+                .setTitle("Command List:")
+                .setDescription(`You can use \`${prefix}help [command name]\` to get more info on a specific command.`)
+                .setThumbnail("https://cdn.discordapp.com/avatars/420651836157067275/a_01603ec5cd3a13e039c34c2785d630b4.gif")
+                .addFields(commandObjectArray)
+                .setTimestamp();
 
             try {
-                await message.author.send(data, { split: true });
-
+                await message.author.send(allCommandsEmbed);
+                console.log(allCommandsEmbed);
                 if (message.channel.type === "dm") return;
                 message.reply("I've sent you a DM with all my commands!");
             } catch (err) {
@@ -36,24 +44,46 @@ module.exports = {
             return message.reply("That's not a valid command!");
         }
 
-        // Adds the command name to the data array.
-        data.push(`**Name:** ${command.name}`);
-
         // Adds various info about the command to the data array.
-        if (command.aliases) {
-            data.push(`**Aliases:** ${command.aliases.join(", ")}`);
-        }
-        if (command.description) {
-            data.push(`**Description:** ${command.description}`);
-        }
-        if (command.usage) {
-            data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
+        if (command.aliases && command.usage) {
+
+            const commandEmbed = new Discord.MessageEmbed()
+                .setColor("#7700ff")
+                .setTitle(command.name)
+                .setDescription(command.description)
+                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
+                .addField("Aliases", command.aliases.join(" "))
+                .addField("Usage", `${prefix}${command.name} ${command.usage}`)
+
+            await message.channel.send(commandEmbed);
+
+        } else if (command.usage && !command.aliases) {
+            const commandEmbed = new Discord.MessageEmbed()
+                .setColor("#7700ff")
+                .setTitle(command.name)
+                .setDescription(command.description)
+                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
+                .addField("Usage", `${prefix}${command.name} ${command.usage}`)
+
+            await message.channel.send(commandEmbed);
+        } else if (!command.usage && command.aliases) {
+            const commandEmbed = new Discord.MessageEmbed()
+                .setColor("#7700ff")
+                .setTitle(command.name)
+                .setDescription(command.description)
+                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
+                .addField("Aliases", command.aliases.join(" "))
+
+            await message.channel.send(commandEmbed);
+        } else {
+            const commandEmbed = new Discord.MessageEmbed()
+                .setColor("#7700ff")
+                .setTitle(command.name)
+                .setDescription(command.description)
+                .addField("Cooldown", `${command.cooldown || 3} second(s)`)
+
+            await message.channel.send(commandEmbed);
         }
 
-        // Adds cooldown info to the data array.
-        data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
-
-        // Sends the data array to the channel.
-        await message.channel.send(data, { split: true });
     },
 };
