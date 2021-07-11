@@ -15,25 +15,25 @@ module.exports = {
         // Validation
         if (!taggedUser) {
             return message.reply("Specify who you want to give a role by tagging them before tagging the role.");
-        }
+        };
         if (!taggedRole) {
             return message.reply("Specify which role you want to give the tagged user.");
-        }
+        };
+        if (!taggedMember) {
+            return message.reply("You cannot give a role to someone who isn't in the guild.");
+        };
+        if (taggedMember.roles.cache.has(taggedRole.id)) {
+            return message.reply(`${taggedUser} already has the role ${taggedRole.name}!`);
+        };
 
-        if (taggedMember) {
-            if (taggedMember.roles.cache.has(taggedRole.id)) {
-                return message.reply(`${taggedUser} already has the role ${taggedRole.name}!`);
-            } else {
-                try {
-                    await taggedMember.roles.add(taggedRole);
-                    message.channel.send(`${taggedUser} has successfully been given the role ${taggedRole.name}.`);
-                } catch (err) {
-                    console.error(err);
-                    message.reply("There was an error with this command!");
-                }
-            }
-        } else {
-            message.reply("You cannot give a role to someone who isn't in the guild.")
-        }
-    }
-}
+        // Add role to user.
+        try {
+            await taggedMember.roles.add(taggedRole);
+            message.channel.send(`${taggedUser} has successfully been given the role ${taggedRole.name}.`);
+        } catch (err) {
+            console.error(err);
+            message.reply("There was an error with this command!");
+        };
+
+    },
+};

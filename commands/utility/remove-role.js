@@ -9,35 +9,30 @@ module.exports = {
     async execute(message, args) {
         // Grab the username of the target user.
         const taggedUser = message.mentions.users.first();
+        const taggedRole = message.mentions.roles.first();
+        const taggedMember = message.guild.member(taggedUser);
 
         // Validation
         if (!taggedUser) {
-            return message.reply("Specify who you want to remove a role from by tagging them.");
-        }
-        if (args.length > 2) {
-            return message.reply("Only one role at a time.");
-        }
-        if (args.length === 1) {
-            return message.reply(`Please enter the role you want to remove from ${taggedUser} after the user's name.`)
-        }
+            return message.reply("Specify who you want to remove a role from by tagging them before tagging the role.");
+        };
+        if (!taggedRole) {
+            return message.reply("Specify which role you want to remove from the tagged user.");
+        };
+        if (!taggedMember) {
+            return message.reply("You cannot remove a role from someone who isn't in the guild.");
+        };
+        if (!taggedMember.roles.cache.has(taggedRole.id)) {
+            return message.reply(`${taggedUser} does not have the role ${taggedRole.name}!`);
+        };
 
-        const role = message.guild.roles.cache.find(role => role.name === args[1]);
-        const taggedMember = message.guild.member(taggedUser);
-
-        if (taggedMember) {
-            if (taggedMember.roles.cache.some(r => r.name === role.name)) {
-                try {
-                    await taggedMember.roles.remove(role);
-                    message.channel.send(`${role.name} has been successfully removed from ${taggedUser}.`);
-                } catch (err) {
-                    console.error(err);
-                    message.reply("There was an error with this command!");
-                }
-            } else {
-                return message.reply(`${taggedUser} does not have the role ${role.name}!`);
-            }
-        } else {
-            message.reply("You cannot remove a role from someone who isn't in the guild.")
-        }
-    }
-}
+        // Remove role from user.
+        try {
+            await taggedMember.roles.remove(taggedRole);
+            message.channel.send(`${taggedRole.name} has been successfully removed from ${taggedUser}.`);
+        } catch (err) {
+            console.error(err);
+            message.reply("There was an error with this command!");
+        };
+    },
+};
