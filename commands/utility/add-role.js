@@ -4,33 +4,29 @@ module.exports = {
     guildOnly: true,
     cooldown: 1,
     args: true,
-    usage: "<user> <role>",
+    usage: "<@user> <@role>",
     permissions: "MANAGE_ROLES",
     async execute(message, args) {
         // Grab the username of the target user.
         const taggedUser = message.mentions.users.first();
+        const taggedRole = message.mentions.roles.first();
+        const taggedMember = message.guild.member(taggedUser);
 
         // Validation
         if (!taggedUser) {
-            return message.reply("Specify who you want to give a role by tagging them.");
+            return message.reply("Specify who you want to give a role by tagging them before tagging the role.");
         }
-        if (args.length < 2) {
-            return message.reply("Specify which role you want to give the user.");
+        if (!taggedRole) {
+            return message.reply("Specify which role you want to give the tagged user.");
         }
-        if (args.length > 2) {
-            return message.reply("Only one role at a time.");
-        }
-
-        const role = message.guild.roles.cache.find(role => role.name === args[1]);
-        const taggedMember = message.guild.member(taggedUser);
 
         if (taggedMember) {
-            if (taggedMember.roles.cache.some(r => r.name === role.name)) {
-                return message.reply(`${taggedUser} already has the role ${role.name}!`);
+            if (taggedMember.roles.cache.has(taggedRole.id)) {
+                return message.reply(`${taggedUser} already has the role ${taggedRole.name}!`);
             } else {
                 try {
-                    await taggedMember.roles.add(role);
-                    message.channel.send(`${taggedUser} has successfully been given the role ${role.name}.`);
+                    await taggedMember.roles.add(taggedRole);
+                    message.channel.send(`${taggedUser} has successfully been given the role ${taggedRole.name}.`);
                 } catch (err) {
                     console.error(err);
                     message.reply("There was an error with this command!");
