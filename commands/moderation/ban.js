@@ -6,7 +6,7 @@ module.exports = {
     args: true,
     usage: "<user>",
     permissions: "BAN_MEMBERS",
-    execute(message, args) {
+    async execute(message, args) {
         // Grab the username of the targeted user.
         const taggedUser = message.mentions.users.first();
 
@@ -18,12 +18,13 @@ module.exports = {
             const taggedMember = message.guild.member(taggedUser);
 
             if (taggedMember) {
-                taggedMember.ban({ reason: "They were not being a good noodle." }).then(() => {
+                try {
+                    await taggedMember.ban({ reason: "They were not being a good noodle." })
                     message.channel.send(`${taggedUser.username} has been banned. See ya never stinky.`);
-                }).catch(err => {
+                } catch (err) {
                     console.error(err);
                     message.reply("There was an error banning that user!");
-                });
+                }
             } else {
                 message.reply("That user isn't in this guild!");
             };

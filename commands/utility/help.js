@@ -6,7 +6,7 @@ module.exports = {
     aliases: ["commands"],
     usage: "[command name]",
     cooldown: 5,
-    execute(message, args) {
+    async execute(message, args) {
         const data = [];
         const { commands } = message.client;
 
@@ -16,15 +16,15 @@ module.exports = {
             data.push(commands.map(command => `\`${command.name}\``).join("\n"));
             data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
 
-            return message.author.send(data, { split: true })
-                .then(() => {
-                    if (message.channel.type === "dm") return;
-                    message.reply("I've sent you a DM with all my commands!");
-                })
-                .catch(err => {
-                    console.error(err);
-                    message.reply("It seems like I can't DM you! Do you have DMs disabled?");
-                })
+            try {
+                await message.author.send(data, { split: true });
+
+                if (message.channel.type === "dm") return;
+                message.reply("I've sent you a DM with all my commands!");
+            } catch (err) {
+                console.error(err);
+                message.reply("It seems like I can't DM you! Do you have DMs disabled?");
+            }
         }
 
         // If there is a specific command in the args, find the command in the collection or aliases.
@@ -54,6 +54,6 @@ module.exports = {
         data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
 
         // Sends the data array to the channel.
-        message.channel.send(data, { split: true });
+        await message.channel.send(data, { split: true });
     },
 };

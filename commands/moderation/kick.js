@@ -6,7 +6,7 @@ module.exports = {
     args: true,
     usage: "<user>",
     permissions: "KICK_MEMBERS",
-    execute(message, args) {
+    async execute(message, args) {
         // Grab the username of the targeted user.
         const taggedUser = message.mentions.users.first();
 
@@ -18,12 +18,13 @@ module.exports = {
             const taggedMember = message.guild.member(taggedUser);
 
             if (taggedMember) {
-                taggedMember.kick().then(() => {
+                try {
+                    await taggedMember.kick();
                     message.channel.send(`${taggedUser.username} has been kicked. See ya later stinky.`);
-                }).catch(err => {
+                } catch (err) {
                     console.error(err);
                     message.reply("There was an error kicking that user!");
-                });
+                }
             } else {
                 message.reply("That user isn't in this guild!");
             };
