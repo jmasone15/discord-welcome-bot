@@ -18,7 +18,7 @@ module.exports = {
                         .setTitle(existingProfile.username)
                         .setDescription(existingProfile.bio)
                         .setThumbnail(existingProfile.thumbnail)
-                        .addFields([{ name: "Github", value: existingProfile.github }, { name: "Portfolio", value: existingProfile.portfolio }, { name: "LinkedIn", value: existingProfile.linkedin }, { name: "Languages", value: existingProfile.languages.join(", ") }])
+                        .addFields([{ name: "Github", value: existingProfile.github }, { name: "Portfolio", value: existingProfile.portfolio }, { name: "LinkedIn", value: existingProfile.linkedin }, { name: "Languages/Technologies", value: existingProfile.languages.join(", ") }])
                         .setTimestamp()
 
                     try {
@@ -39,7 +39,7 @@ module.exports = {
                         .setTitle(savedProfile.username)
                         .setDescription(savedProfile.bio)
                         .setThumbnail(savedProfile.thumbnail)
-                        .addFields([{ name: "Github", value: savedProfile.github }, { name: "Portfolio", value: savedProfile.portfolio }, { name: "LinkedIn", value: savedProfile.linkedin }, { name: "Languages", value: savedProfile.languages.join(", ") }])
+                        .addFields([{ name: "Github", value: savedProfile.github }, { name: "Portfolio", value: savedProfile.portfolio }, { name: "LinkedIn", value: savedProfile.linkedin }, { name: "Languages/Technologies", value: savedProfile.languages.join(", ") }])
                         .setTimestamp()
 
                     try {
