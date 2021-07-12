@@ -11,7 +11,7 @@ const profileSchema = new mongoose.Schema({
     bio: { type: String, required: true, default: defaultBio },
     github: { type: String, required: true, default: defaultGithub },
     portfolio: { type: String, required: true, default: defaultPortfolio },
-    linkedIn: { type: String, required: true, default: defaultLinkedIn },
+    linkedin: { type: String, required: true, default: defaultLinkedIn },
     languages: { type: Array, required: true, default: defaultLanguages }
 });
 
