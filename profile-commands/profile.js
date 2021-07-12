@@ -18,7 +18,13 @@ module.exports = {
                         .setTitle(existingProfile.username)
                         .setDescription(existingProfile.bio)
                         .setThumbnail(existingProfile.thumbnail)
-                        .addFields([{ name: "Github", value: existingProfile.github }, { name: "Portfolio", value: existingProfile.portfolio }, { name: "LinkedIn", value: existingProfile.linkedin }, { name: "Languages/Technologies", value: existingProfile.languages.join(", ") }])
+                        .addFields(
+                            { name: '\u200B', value: '\u200B' },
+                            { name: "Github", value: existingProfile.github, inline: true },
+                            { name: "Portfolio", value: existingProfile.portfolio, inline: true },
+                            { name: "LinkedIn", value: existingProfile.linkedin, inline: true },
+                            { name: "Languages/Technologies", value: existingProfile.languages.join(", ") }
+                        )
                         .setTimestamp()
 
                     try {
@@ -39,7 +45,13 @@ module.exports = {
                         .setTitle(savedProfile.username)
                         .setDescription(savedProfile.bio)
                         .setThumbnail(savedProfile.thumbnail)
-                        .addFields([{ name: "Github", value: savedProfile.github }, { name: "Portfolio", value: savedProfile.portfolio }, { name: "LinkedIn", value: savedProfile.linkedin }, { name: "Languages/Technologies", value: savedProfile.languages.join(", ") }])
+                        .addFields(
+                            { name: '\u200B', value: '\u200B' },
+                            { name: "Github", value: savedProfile.github, inline: true },
+                            { name: "Portfolio", value: savedProfile.portfolio, inline: true },
+                            { name: "LinkedIn", value: savedProfile.linkedin, inline: true },
+                            { name: "Languages/Technologies", value: savedProfile.languages.join(", ") }
+                        )
                         .setTimestamp()
 
                     try {
@@ -69,7 +81,13 @@ module.exports = {
                     .setTitle(findProfile.username)
                     .setDescription(findProfile.bio)
                     .setThumbnail(findProfile.thumbnail)
-                    .addFields([{ name: "Github", value: findProfile.github }, { name: "Portfolio", value: findProfile.portfolio }, { name: "LinkedIn", value: findProfile.linkedIn }, { name: "Languages", value: findProfile.languages.join(", ") }])
+                    .addFields(
+                        { name: '\u200B', value: '\u200B' },
+                        { name: "Github", value: findProfile.github, inline: true },
+                        { name: "Portfolio", value: findProfile.portfolio, inline: true },
+                        { name: "LinkedIn", value: findProfile.linkedIn, inline: true },
+                        { name: "Languages", value: findProfile.languages.join(", ") }
+                    )
                     .setTimestamp()
 
                 try {

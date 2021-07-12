@@ -6,7 +6,8 @@ module.exports = {
     guildOnly: true,
     cooldown: 1,
     args: true,
-    usage: "<language>",
+    usage: "<languages>",
+    aliases: ["profile.language"],
     async execute(message, args) {
         try {
             const existingProfile = await Profile.findOne({ username: message.author.username });
