@@ -13,8 +13,20 @@ module.exports = {
             try {
                 const existingProfile = await Profile.findOne({ username: message.author.username });
                 if (existingProfile) {
-                    console.log("Profile already exists");
-                    console.log(existingProfile.languages.join(", "));
+                    const existingProfileMessageEmbed = new Discord.MessageEmbed()
+                        .setColor("#7700ff")
+                        .setTitle(existingProfile.username)
+                        .setDescription(existingProfile.bio)
+                        .setThumbnail(existingProfile.thumbnail)
+                        .addFields([{ name: "Github", value: existingProfile.github }, { name: "Portfolio", value: existingProfile.portfolio }, { name: "LinkedIn", value: existingProfile.linkedIn }, { name: "Languages", value: existingProfile.languages.join(", ") }])
+                        .setTimestamp()
+
+                    try {
+                        await message.reply(existingProfileMessageEmbed);
+                    } catch (err) {
+                        console.error(err);
+                        message.reply("There was an error with the embed message");
+                    }
                 } else {
                     const newProfile = new Profile({
                         username: message.author.username,
