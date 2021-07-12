@@ -9,7 +9,6 @@ module.exports = {
     usage: " or !help <command name>",
     cooldown: 3,
     async execute(message, args) {
-        const data = [];
         const { commands } = message.client;
         const commandObjectArray = [];
 

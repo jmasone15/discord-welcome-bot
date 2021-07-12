@@ -255,11 +255,6 @@ client.on("message", message => {
         return message.reply("I can't execute that command inside DMs!");
     }
 
-    // Validation for command permissions.
-    if (message.author.id !== "420651836157067275") {
-        return message.reply("You don't have permissons for this command.");
-    }
-
     // If the arguments property is true in the command, this check runs to see if the author provided arguments in their command.
     if (command.args && !args.length) {
         let reply = `You didn't provide any arguments, ${message.author}!`;
@@ -334,11 +329,6 @@ client.on("message", message => {
     // Validation for guild only commands.
     if (command.guildOnly && message.channel.type === "dm") {
         return message.reply("I can't execute that command inside DMs!");
-    }
-
-    // Validation for command permissions.
-    if (message.author.id !== "420651836157067275") {
-        return message.reply("You don't have permissons for this command.");
     }
 
     // If the arguments property is true in the command, this check runs to see if the author provided arguments in their command.
