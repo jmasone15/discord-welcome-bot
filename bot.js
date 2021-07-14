@@ -1,7 +1,11 @@
 const fs = require("fs");
 const Discord = require("discord.js");
-const { prefix, token, MONGODB_SRV } = require('./config.json');
+// const { prefix, token, MONGODB_SRV } = require('./config.json');
 const mongoose = require("mongoose");
+
+const prefix = "!";
+const token = process.env.token;
+const MONGODB_SRV = process.env.MONGODB_SRV;
 
 // Create a new instance of the discord client
 const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION"] });
