@@ -6,7 +6,7 @@ module.exports = {
     guildOnly: true,
     cooldown: 1,
     args: true,
-    usage: "<url>",
+    usage: "<bio>",
     async execute(message, args) {
         try {
             const existingProfile = await Profile.findOne({ username: message.author.username });
